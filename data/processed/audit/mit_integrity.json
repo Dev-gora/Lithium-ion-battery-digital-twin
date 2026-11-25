@@ -1,0 +1,22 @@
+{
+  "2018-02-20_batchdata_updated_struct_errorcorrect.mat": {
+    "bytes": 2022599329,
+    "sha256": "3487db505ad08b6c805f41dd0560e73b54077c76aca04f706f06e2356ccf7845"
+  },
+  "2018-04-03_varcharge_batchdata_updated_struct_errorcorrect.mat": {
+    "bytes": 89125795,
+    "sha256": "348626d881c273847405f6cf87de4f3a998f181322d8aae2b62c3c38f0d76995"
+  },
+  "initialdata_all.mat": {
+    "bytes": 12611247,
+    "sha256": "6749aee75bee6f6efc0218ecf7dfa58515350ded91e4dd7f6d2c447049c6680d"
+  },
+  "finaldata_4.mat": {
+    "bytes": 74727,
+    "sha256": "a84a4fc6203e9b9ad5ef626aef334fe66576e06aeac7a825b23b314c8373bf41"
+  },
+  "finaldata_6and8.mat": {
+    "bytes": 150568,
+    "sha256": "bf69dc8c4301b9380f0889db5e0773a196b3f3aa5cf4fb689aece1810c3b4574"
+  }
+}

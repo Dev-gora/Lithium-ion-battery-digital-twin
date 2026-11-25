@@ -1,0 +1,274 @@
+{
+  "data/raw/NASA/5.+Battery+Data+Set.zip": {
+    "bytes": 209708670,
+    "sha256": "82302a7db4fc1b34e0b6676326610438d43b816bdf11a69d1d012a464ef2f92e"
+  },
+  "data/raw/Oxford/Oxford_Battery_Degradation_Dataset_1.mat": {
+    "bytes": 266164290,
+    "sha256": "a8f0b928f4ea77d7ba98b97194b78cc77336f2338fee8b57573d043f0cf26781"
+  },
+  "data/raw/additional/Oxford_Energy_Trading/BMP_cell1_capacityData.csv": {
+    "bytes": 452,
+    "sha256": "222c94f144d0482779083e801f86f6c87842c3539acc72688b521cff4cdf3ccf"
+  },
+  "data/raw/additional/Oxford_Energy_Trading/BMP_cell1_profileData.csv": {
+    "bytes": 2600514,
+    "sha256": "aa27710ad7e3c4f9483e20d977d0710acaeeb31a832bc0fb2ee0b1fb5b1684c6"
+  },
+  "data/raw/additional/Oxford_Energy_Trading/BMP_cell2_capacityData.csv": {
+    "bytes": 458,
+    "sha256": "78ad48a6b127c8d804cf915b708d312f3ada43dc0c4a429c8e6e6ab6d4ad1c46"
+  },
+  "data/raw/additional/Oxford_Energy_Trading/BMP_cell2_profileData.csv": {
+    "bytes": 2709899,
+    "sha256": "0bbd3278d21c9e0e3429dd25ca4c2e8589c4f6ab103ff3834bfaa72cfa02ff42"
+  },
+  "data/raw/additional/Oxford_Energy_Trading/BMR_cell1_capacityData.csv": {
+    "bytes": 456,
+    "sha256": "7f0914d15dbbe62246dd688a94dd2e828476d72d475d7e836f8ff7bbeb9cdd1f"
+  },
+  "data/raw/additional/Oxford_Energy_Trading/BMR_cell1_profileData.csv": {
+    "bytes": 8216918,
+    "sha256": "8cf2d73718c81eeb12723edb585e871d6af7b5e6fd71597c48f48be60a5f6531"
+  },
+  "data/raw/additional/Oxford_Energy_Trading/BMR_cell2_capacityData.csv": {
+    "bytes": 453,
+    "sha256": "9d6f11271a2095a2fe0b3da0b89f7b3e3213cdb02dcb60fb8c58c371ac3036a5"
+  },
+  "data/raw/additional/Oxford_Energy_Trading/BMR_cell2_profileData.csv": {
+    "bytes": 9305019,
+    "sha256": "0ca8775c8ab98ae696cde0d8f09dd7e095e4eebfa4f16cb81f4c4fc26e00a7e4"
+  },
+  "data/raw/additional/Oxford_Energy_Trading/optimal_current_profiles.csv": {
+    "bytes": 1290120,
+    "sha256": "24cf77527b4693fd7e68a5457e039a1694387fd02d90d787548c89def1c40dab"
+  },
+  "data/raw/additional/Oxford_Energy_Trading/Readme.txt": {
+    "bytes": 9723,
+    "sha256": "6d6effc0a913bfbcf5956d3749c370d439ca4ee7e2811b2c4d8156d5edca44bb"
+  },
+  "data/raw/additional/Oxford_Energy_Trading/SPM_cell1_capacityData.csv": {
+    "bytes": 451,
+    "sha256": "5b14aac2405f5fc7a3fb26e30955c756701ea5abe63f7166363fd2930441c999"
+  },
+  "data/raw/additional/Oxford_Energy_Trading/SPM_cell1_profileData.csv": {
+    "bytes": 3008626,
+    "sha256": "bb7f5b148e3f409d44287e530876cc8999349427e19e96e43036df089f47e5f5"
+  },
+  "data/raw/additional/Oxford_Energy_Trading/SPM_cell2_capacityData.csv": {
+    "bytes": 454,
+    "sha256": "6b897f0e802d5106eea68347f88e35c25d5a1f5aeaf80545445de281cf9003ef"
+  },
+  "data/raw/additional/Oxford_Energy_Trading/SPM_cell2_profileData.csv": {
+    "bytes": 2967350,
+    "sha256": "2a694d90ee810efca6b25a51513e591bb22465e3fff5dfd0643c949fdf9e3edc"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/ReadMeFile_v2.txt": {
+    "bytes": 8823,
+    "sha256": "1dc1ab3182e4e359a303623a99ae55e82417d63adb6e5678a781f59412d29342"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0001_v2.txt": {
+    "bytes": 38584,
+    "sha256": "9a152b62f45888bf5709eb7f0d9f5cb29ad7e17f61193359786c0cbd680e653c"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0002_v2.txt": {
+    "bytes": 43297,
+    "sha256": "f2b2191f4aa4b55513f4f557f8dd8a88ac06cec6efa085cd62a04ca7cc82b353"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0003_v2.txt": {
+    "bytes": 43923,
+    "sha256": "773a1147cc4a7693e330460564e3e1afd2b7405281b61136a97e1bf6fbc5b72e"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0004_v2.txt": {
+    "bytes": 43154,
+    "sha256": "8d3aafbca61ddd8f5c7549dc7659cbcfcc90f2610ec915c03e3576374cb3a382"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0005_v2.txt": {
+    "bytes": 38599,
+    "sha256": "a28b8b85877560387f47fdc36901ded450d082f9a92a9e531b20d955c2dda686"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0006_v2.txt": {
+    "bytes": 43322,
+    "sha256": "ec90e3480f4ddd58a2fd8acb15ce297be86a3c81cefd20394bed63304bc4d02b"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0007_v2.txt": {
+    "bytes": 33203,
+    "sha256": "079a1bb1f82b702235cac128bf4984d5d165de086dbf48bd6fa8a140dd87917d"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0008_v2.txt": {
+    "bytes": 43514,
+    "sha256": "2ee0c43fd4354d14b3016bcac8bfd66c2df1b651bf70df82f06b0136e2ce1dfc"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0009_v2.txt": {
+    "bytes": 65131,
+    "sha256": "cd050e3f032aaadfd5f4ca3d59c7d7796d58207c67a85ba2cb1d12c19d31b418"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0010_v2.txt": {
+    "bytes": 42062,
+    "sha256": "c9d8613e5ebe848c4ea105dfa7a27d94f1b03f1ad5343daf77258ea9a3024919"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0011_v2.txt": {
+    "bytes": 65136,
+    "sha256": "1aab6eec3f6d2f9250df1e00062048cb1d108586f903ed907688e84bd5a99254"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0012_v2.txt": {
+    "bytes": 42174,
+    "sha256": "6b71ab20b298ce92b44d1d62ff806b4acbcdaa40e6ec5aaf1f8f742fe68a11ab"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0013_v2.txt": {
+    "bytes": 43937,
+    "sha256": "1bfa57a54c013f1c819a71ab0c46b999173e10de7c978bcfcb0a2e60aa789ef8"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0014_v2.txt": {
+    "bytes": 43116,
+    "sha256": "dcf3405e55a1005b80b025d18337feb365814e030fb31267582ee11d2fcc5d87"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0015_v2.txt": {
+    "bytes": 38599,
+    "sha256": "d00e7b1371a3e489d88a77a8fa91149ef27d0eaa9dab9c5dce553df15c6b787a"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0016_v2.txt": {
+    "bytes": 43156,
+    "sha256": "706c25916237411f0b3a6ce329a76435de156460046ff45217a3bb0e56efd7f0"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0017_v2.txt": {
+    "bytes": 33209,
+    "sha256": "332eab8e812d9db581483078892a9a572b0cf2afff6eb3b8c5fc71e72ad494af"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0018_v2.txt": {
+    "bytes": 43518,
+    "sha256": "e1d6b1067158e1c42f2631f26be8734293a9cb2e6954aee9026e74e811e036bd"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0019_v1.txt": {
+    "bytes": 1029,
+    "sha256": "4289129d66175ad84eadf5fd85fe007c615f8ee9eedb852ef35f12b2ff79a2bd"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0020_v1.txt": {
+    "bytes": 1701,
+    "sha256": "dcdc2516063be8e9a59bba75307a4f9917f4a3f6f968a22cd151d61a815313eb"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0021_v1.txt": {
+    "bytes": 1534,
+    "sha256": "ebc883adc74af824cd941779ee26db3a7cb1bbb9e3e94e98c77b6900feced1fa"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0022_v1.txt": {
+    "bytes": 1031,
+    "sha256": "828643418d71404de852dbc500a2a8a75df16b30a67a3e2e6ec6dbe8d83e1f10"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0023_v1.txt": {
+    "bytes": 1695,
+    "sha256": "1f7839f1b3bbb173508d1e9d804712fe14e39c9d7276ece82ca5aaf9554c3d1a"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0024_v1.txt": {
+    "bytes": 1534,
+    "sha256": "093668dbfa91004311c8fcae5a6a43d8845d02f4bb852fc913af5e331117c769"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0025_v1.txt": {
+    "bytes": 16490754,
+    "sha256": "1e40a8e969f3edd3bdcf3bae283ba499646ef91a17392114ac81a4d5c80cda92"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0026_v1.txt": {
+    "bytes": 4945208,
+    "sha256": "84ac75aa4c2bc1bef4b8aa4e1fcd50d2bf5c3dfd91c96d02e95b761f3b98e639"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0027_v1.txt": {
+    "bytes": 11799080,
+    "sha256": "cc26262ee9394149a1f3454179a77c758495d32db6848b927c3da0b0b370903c"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0028_v1.txt": {
+    "bytes": 17365008,
+    "sha256": "54330ab28425ac7bc46201c08260446d21c14d547fefbfafeeb500c38a398c71"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0029_v1.txt": {
+    "bytes": 16863276,
+    "sha256": "775e3e3028cfaf05e63e6d5fa5839a0f29df54518bd48961fe9e13eef10ebf0e"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0030_v1.txt": {
+    "bytes": 17113460,
+    "sha256": "0e1b6be79aa3f17ec371836f01ca2ca5ff426c579a7e6ac052ff96a11ad58292"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0031_v1.txt": {
+    "bytes": 17158677,
+    "sha256": "cfaa429379de3756ffa665e3315de34f0eacecf03fcfc0ce00422c007ff916bc"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0032_v1.txt": {
+    "bytes": 16950387,
+    "sha256": "64d3921ffba424b9582194a4c770397843dbf209bbf0735678ca847b662a0449"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0033_v1.txt": {
+    "bytes": 4974303,
+    "sha256": "b38ccbd4d725b9b2510a1e15c823864a40f81b7687c050befb500100a8022d94"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0034_v1.txt": {
+    "bytes": 12123098,
+    "sha256": "e15653a7fd9f4256c4b51ef530f5b7577d2bde299f1ec2abd9ba5b945ec721dd"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0035_v1.txt": {
+    "bytes": 17786231,
+    "sha256": "976005f5acd7158d8423261fdeb223b2ba8c0da9d4652122186b68b3c27787f4"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0036_v1.txt": {
+    "bytes": 17156019,
+    "sha256": "e63de247db90ff6f9ff865311c29a79cccd15e598fbd7c9c66cc359040455f76"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0037_v1.txt": {
+    "bytes": 17285962,
+    "sha256": "5287a104680b847a097f629020877cab3c545c0bd990d931ae8916bb9bdd9b53"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0038_v1.txt": {
+    "bytes": 17324039,
+    "sha256": "2956f0e2b79c09a61e574c052a4a2cfd7dddf06dc27d18e1c733ad0f8547ce01"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0039_v1.txt": {
+    "bytes": 16256,
+    "sha256": "d9b1c57296e82d0ee45fb3ada3383b05954018ba971b86de1fc1d05247f2f935"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0040_v1.txt": {
+    "bytes": 16130,
+    "sha256": "3bf75faab95261ff7c25739445444bfd621b3d51c8496be21ec799fac0f008c1"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0041_v1.txt": {
+    "bytes": 16157,
+    "sha256": "a91a03734fd0ef5f4f9d26006456c6668995c0d28277a311be9cefefaafd58ed"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0042_v1.txt": {
+    "bytes": 16171,
+    "sha256": "2edbe5e2866280e7c024d535688e093fa923e24b21291b9b9a89fe8b8bbe7cf8"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0043_v1.txt": {
+    "bytes": 23574,
+    "sha256": "c18f1dbede8ba22512dca0ef86511dc362e2a32fd2aaa995538b93ac5937d63a"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0044_v1.txt": {
+    "bytes": 65115,
+    "sha256": "1cc70e70dc215cb0cd2d23d03c6eded5ae54e2ea7366c105bd22306bbb2ce849"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0045_v1.txt": {
+    "bytes": 42050,
+    "sha256": "e7abda9534d019889a8a753813703475025addbae0a8e265a81f5852bf1d1213"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0046_v1.txt": {
+    "bytes": 65141,
+    "sha256": "2fdc3156fc35cd57db5846ed8452ed102f08c4c15c04645ea601cd5a01544ef2"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0047_v1.txt": {
+    "bytes": 42246,
+    "sha256": "16cbaf2f52241caf40c268a0466c0579ee9d8703a3a968edf77fd545be7795a5"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0048_v1.txt": {
+    "bytes": 6495,
+    "sha256": "2ec5684c7bf8a910bb1d73027393ef2f8b2a6b10f6211257aa0625667a521ed4"
+  },
+  "data/raw/additional/Samsung_INR18650_35E/VZ5_008_021_VUT_D_0049_v1.txt": {
+    "bytes": 7254,
+    "sha256": "6dc99165dbc3daebbe0072054fbd1e6c7cff81e92f9ed392243d0602379cd9bf"
+  },
+  "data/raw/Oxford/ExampleDC_C1.mat": {
+    "bytes": 72593,
+    "sha256": "144cdf5aec7467bcce5445e132495e8477f4e08d9963c221d8ba5d7970a7a97d"
+  },
+  "data/raw/Oxford/Readme.txt": {
+    "bytes": 5643,
+    "sha256": "f04c8bdae97e98632b9daeaa7c71631990dbf5ecbf38711347fc470baefc0def"
+  }
+}

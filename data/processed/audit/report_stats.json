@@ -1,0 +1,355 @@
+{
+  "energy": {
+    "profiles": {
+      "BMP_cell1_profileData.csv": {
+        "rows": 69715,
+        "voltage_zero": 2099,
+        "cell_temp_zero": 17815,
+        "env_temp_zero": 11922,
+        "cell_temp_nan": 3,
+        "env_temp_nan": 3,
+        "env_temp_minus1000": 0
+      },
+      "BMP_cell2_profileData.csv": {
+        "rows": 73023,
+        "voltage_zero": 2113,
+        "cell_temp_zero": 21110,
+        "env_temp_zero": 11952,
+        "cell_temp_nan": 3,
+        "env_temp_nan": 3,
+        "env_temp_minus1000": 0
+      },
+      "BMR_cell1_profileData.csv": {
+        "rows": 228134,
+        "voltage_zero": 5898,
+        "cell_temp_zero": 133174,
+        "env_temp_zero": 171644,
+        "cell_temp_nan": 3,
+        "env_temp_nan": 3,
+        "env_temp_minus1000": 0
+      },
+      "BMR_cell2_profileData.csv": {
+        "rows": 255615,
+        "voltage_zero": 5567,
+        "cell_temp_zero": 164480,
+        "env_temp_zero": 167097,
+        "cell_temp_nan": 3,
+        "env_temp_nan": 3,
+        "env_temp_minus1000": 41766
+      },
+      "SPM_cell1_profileData.csv": {
+        "rows": 77949,
+        "voltage_zero": 2156,
+        "cell_temp_zero": 24602,
+        "env_temp_zero": 26224,
+        "cell_temp_nan": 0,
+        "env_temp_nan": 0,
+        "env_temp_minus1000": 0
+      },
+      "SPM_cell2_profileData.csv": {
+        "rows": 76626,
+        "voltage_zero": 2138,
+        "cell_temp_zero": 23349,
+        "env_temp_zero": 25053,
+        "cell_temp_nan": 3,
+        "env_temp_nan": 3,
+        "env_temp_minus1000": 0
+      }
+    },
+    "totals": {
+      "rows": 781062,
+      "voltage_zero": 19971,
+      "cell_temp_zero": 384530,
+      "env_temp_zero": 413892,
+      "temp_zero_combined": 798422,
+      "cell_temp_nan": 15,
+      "env_temp_nan": 15,
+      "env_temp_minus1000": 41766
+    }
+  },
+  "mit_eol": {
+    "n": 39,
+    "median_diff": 4.0,
+    "min_diff": -1.0,
+    "max_diff": 36.0,
+    "max_abs_diff": 36.0,
+    "cells_over_20_abs": 2,
+    "provider_min": 392.0,
+    "provider_max": 1186.0,
+    "derived_min": 398.0,
+    "derived_max": 1222.0,
+    "rows": [
+      {
+        "cell_id": "MIT_B1_C000",
+        "cycle_life_provider": 477.0,
+        "eol_80_first_cycle": 477.0,
+        "diff": 0.0
+      },
+      {
+        "cell_id": "MIT_B1_C001",
+        "cycle_life_provider": 491.0,
+        "eol_80_first_cycle": 491.0,
+        "diff": 0.0
+      },
+      {
+        "cell_id": "MIT_B1_C002",
+        "cycle_life_provider": 424.0,
+        "eol_80_first_cycle": 432.0,
+        "diff": 8.0
+      },
+      {
+        "cell_id": "MIT_B1_C003",
+        "cycle_life_provider": 499.0,
+        "eol_80_first_cycle": 503.0,
+        "diff": 4.0
+      },
+      {
+        "cell_id": "MIT_B1_C004",
+        "cycle_life_provider": 444.0,
+        "eol_80_first_cycle": 448.0,
+        "diff": 4.0
+      },
+      {
+        "cell_id": "MIT_B1_C005",
+        "cycle_life_provider": 416.0,
+        "eol_80_first_cycle": 418.0,
+        "diff": 2.0
+      },
+      {
+        "cell_id": "MIT_B1_C006",
+        "cycle_life_provider": 393.0,
+        "eol_80_first_cycle": 400.0,
+        "diff": 7.0
+      },
+      {
+        "cell_id": "MIT_B1_C007",
+        "cycle_life_provider": 777.0,
+        "eol_80_first_cycle": 785.0,
+        "diff": 8.0
+      },
+      {
+        "cell_id": "MIT_B1_C008",
+        "cycle_life_provider": 904.0,
+        "eol_80_first_cycle": 912.0,
+        "diff": 8.0
+      },
+      {
+        "cell_id": "MIT_B1_C009",
+        "cycle_life_provider": 791.0,
+        "eol_80_first_cycle": 794.0,
+        "diff": 3.0
+      },
+      {
+        "cell_id": "MIT_B1_C010",
+        "cycle_life_provider": 492.0,
+        "eol_80_first_cycle": 491.0,
+        "diff": -1.0
+      },
+      {
+        "cell_id": "MIT_B1_C011",
+        "cycle_life_provider": 449.0,
+        "eol_80_first_cycle": 452.0,
+        "diff": 3.0
+      },
+      {
+        "cell_id": "MIT_B1_C012",
+        "cycle_life_provider": 466.0,
+        "eol_80_first_cycle": 467.0,
+        "diff": 1.0
+      },
+      {
+        "cell_id": "MIT_B1_C013",
+        "cycle_life_provider": 460.0,
+        "eol_80_first_cycle": 464.0,
+        "diff": 4.0
+      },
+      {
+        "cell_id": "MIT_B1_C014",
+        "cycle_life_provider": 426.0,
+        "eol_80_first_cycle": 435.0,
+        "diff": 9.0
+      },
+      {
+        "cell_id": "MIT_B1_C015",
+        "cycle_life_provider": 396.0,
+        "eol_80_first_cycle": 406.0,
+        "diff": 10.0
+      },
+      {
+        "cell_id": "MIT_B1_C016",
+        "cycle_life_provider": 472.0,
+        "eol_80_first_cycle": 477.0,
+        "diff": 5.0
+      },
+      {
+        "cell_id": "MIT_B1_C017",
+        "cycle_life_provider": 471.0,
+        "eol_80_first_cycle": 476.0,
+        "diff": 5.0
+      },
+      {
+        "cell_id": "MIT_B1_C018",
+        "cycle_life_provider": 449.0,
+        "eol_80_first_cycle": 458.0,
+        "diff": 9.0
+      },
+      {
+        "cell_id": "MIT_B1_C019",
+        "cycle_life_provider": 392.0,
+        "eol_80_first_cycle": 398.0,
+        "diff": 6.0
+      },
+      {
+        "cell_id": "MIT_B1_C020",
+        "cycle_life_provider": 489.0,
+        "eol_80_first_cycle": 492.0,
+        "diff": 3.0
+      },
+      {
+        "cell_id": "MIT_B1_C021",
+        "cycle_life_provider": 408.0,
+        "eol_80_first_cycle": 410.0,
+        "diff": 2.0
+      },
+      {
+        "cell_id": "MIT_B1_C024",
+        "cycle_life_provider": 514.0,
+        "eol_80_first_cycle": 520.0,
+        "diff": 6.0
+      },
+      {
+        "cell_id": "MIT_B1_C025",
+        "cycle_life_provider": 493.0,
+        "eol_80_first_cycle": 495.0,
+        "diff": 2.0
+      },
+      {
+        "cell_id": "MIT_B1_C026",
+        "cycle_life_provider": 450.0,
+        "eol_80_first_cycle": 451.0,
+        "diff": 1.0
+      },
+      {
+        "cell_id": "MIT_B1_C027",
+        "cycle_life_provider": 474.0,
+        "eol_80_first_cycle": 478.0,
+        "diff": 4.0
+      },
+      {
+        "cell_id": "MIT_B1_C028",
+        "cycle_life_provider": 437.0,
+        "eol_80_first_cycle": 442.0,
+        "diff": 5.0
+      },
+      {
+        "cell_id": "MIT_B1_C029",
+        "cycle_life_provider": 452.0,
+        "eol_80_first_cycle": 453.0,
+        "diff": 1.0
+      },
+      {
+        "cell_id": "MIT_B1_C030",
+        "cycle_life_provider": 412.0,
+        "eol_80_first_cycle": 416.0,
+        "diff": 4.0
+      },
+      {
+        "cell_id": "MIT_B1_C031",
+        "cycle_life_provider": 425.0,
+        "eol_80_first_cycle": 428.0,
+        "diff": 3.0
+      },
+      {
+        "cell_id": "MIT_B1_C032",
+        "cycle_life_provider": 809.0,
+        "eol_80_first_cycle": 814.0,
+        "diff": 5.0
+      },
+      {
+        "cell_id": "MIT_B1_C033",
+        "cycle_life_provider": 1140.0,
+        "eol_80_first_cycle": 1163.0,
+        "diff": 23.0
+      },
+      {
+        "cell_id": "MIT_B1_C034",
+        "cycle_life_provider": 1186.0,
+        "eol_80_first_cycle": 1222.0,
+        "diff": 36.0
+      },
+      {
+        "cell_id": "MIT_B1_C041",
+        "cycle_life_provider": 442.0,
+        "eol_80_first_cycle": 442.0,
+        "diff": 0.0
+      },
+      {
+        "cell_id": "MIT_B1_C042",
+        "cycle_life_provider": 474.0,
+        "eol_80_first_cycle": 474.0,
+        "diff": 0.0
+      },
+      {
+        "cell_id": "MIT_B1_C043",
+        "cycle_life_provider": 1029.0,
+        "eol_80_first_cycle": 1031.0,
+        "diff": 2.0
+      },
+      {
+        "cell_id": "MIT_B1_C044",
+        "cycle_life_provider": 841.0,
+        "eol_80_first_cycle": 844.0,
+        "diff": 3.0
+      },
+      {
+        "cell_id": "MIT_B1_C045",
+        "cycle_life_provider": 997.0,
+        "eol_80_first_cycle": 998.0,
+        "diff": 1.0
+      },
+      {
+        "cell_id": "MIT_B1_C046",
+        "cycle_life_provider": 503.0,
+        "eol_80_first_cycle": 505.0,
+        "diff": 2.0
+      }
+    ]
+  },
+  "calce_outlier_rows": [
+    {
+      "cell_id": "CS2_3",
+      "global_cycle": 3,
+      "cycle_type": "partial_block",
+      "voltage_min_V": 1.9627161026000977,
+      "current_min_A": -0.5501551032066345,
+      "current_max_A": 0.5504778623580933,
+      "out_of_range": 1,
+      "file": "CS2_3_9_16_11.xlsx"
+    },
+    {
+      "cell_id": "CS2_3",
+      "global_cycle": 47,
+      "cycle_type": "partial_block",
+      "voltage_min_V": 2.699781894683838,
+      "current_min_A": -5.918043613433838,
+      "current_max_A": 0.550297200679779,
+      "out_of_range": 1,
+      "file": "CS2_3_2_6_12.xlsx"
+    }
+  ],
+  "calce_soh_max": {
+    "max": 1.0038005040251818,
+    "row": {
+      "cell_id": "CS2_3",
+      "global_cycle": 2,
+      "capacity_Ah": 1.108464010128984,
+      "soh": 1.0038005040251818,
+      "file": "CS2_3_9_14_11.xlsx"
+    }
+  },
+  "counts": {
+    "calce_total_cycles": 7724,
+    "calce_eligible": 2068,
+    "calce_partial": 5656
+  }
+}

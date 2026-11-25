@@ -1,0 +1,120 @@
+[
+  {
+    "id": "bdc_000086",
+    "title": "Samsung INR18650-35E Cycling Dataset for State-of-Health Estimation",
+    "description": "This dataset contains room-temperature cycling measurements from two 3.4 Ah Samsung INR18650-35E cells over 600 cycles. Cells were charged at C/2 using a CCCV protocol and discharged at C/2 under constant current.",
+    "electrodes": {
+      "positive": "LithiumNickelManganeseCobaltOxide",
+      "negative": "Carbon"
+    },
+    "overview": {
+      "feature": null,
+      "case": "R18650",
+      "cell_module_pack": "BatteryCell",
+      "manufacturer": "Samsung",
+      "battery_model": "INR18650-35E",
+      "iec_battery_code": "INR18650"
+    },
+    "reported_values": {
+      "rated_capacity_Ah": 3.4,
+      "number_of_specimens": 2.0
+    },
+    "license": {
+      "name": "CC BY 4.0",
+      "url": "https://creativecommons.org/licenses/by/4.0"
+    },
+    "source_urls": [
+      "https://doi.org/10.5281/zenodo.14182610"
+    ],
+    "publications": [
+      {
+        "url": "https://doi.org/10.1016/j.electacta.2025.145988",
+        "bib_citation": null,
+        "authors": [
+          "Marek Sedlařík",
+          "Petr Vyroubal",
+          "Dominika Capková",
+          "Edin Omerdic",
+          "Mitchell Rae",
+          "Martin Mačák",
+          "Martin Šedina",
+          "Tomáš Kazda"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "bdc_000127",
+    "title": "Oxford Long-Term Lithium-Ion Battery Degradation Dataset 1",
+    "description": "This dataset contains long-term cycling measurements from eight lithium-ion cells. The files record the evolution of cell performance during aging and include supporting documentation describing the test data and file organization.",
+    "electrodes": {
+      "negative": "Carbon",
+      "positive": null
+    },
+    "overview": {
+      "cell_module_pack": "BatteryCell",
+      "manufacturer": "Kokam",
+      "feature": null,
+      "iec_battery_code": null,
+      "case": "PouchCase",
+      "battery_model": "SLPB533459H4"
+    },
+    "reported_values": {
+      "rated_capacity_Ah": 0.74,
+      "number_of_specimens": 8.0
+    },
+    "license": {
+      "name": "ODbL 1.0",
+      "url": "https://opendatacommons.org/licenses/odbl/1.0/index.html"
+    },
+    "source_urls": [
+      "https://doi.org/10.5287/bodleian:KO2kdmYGg"
+    ],
+    "publications": [
+      {
+        "bib_citation": "birkl2017diagnosis",
+        "url": "https://ora.ox.ac.uk/objects/uuid:7d8ccb9c-1469-4209-9995-5871fc908b54"
+      }
+    ]
+  },
+  {
+    "id": "bdc_000129",
+    "title": "Oxford Energy-Trading Battery Degradation Dataset",
+    "description": "This dataset contains one year of degradation measurements from six lithium-ion cells cycled with current profiles representing day-ahead electricity-market operation. It includes monthly capacity measurements and current, voltage, and temperature time series for two BMP, two BMR, and two SPM cells, together with the applied current profiles and a MATLAB plotting script.",
+    "electrodes": {
+      "positive": "LithiumNickelManganeseCobaltOxide",
+      "negative": "Carbon"
+    },
+    "overview": {
+      "feature": "Year-long degradation under current profiles for day-ahead wholesale energy trading",
+      "case": "PouchCase",
+      "cell_module_pack": "BatteryCell",
+      "manufacturer": "Kokam",
+      "battery_model": "SLPB78205130H",
+      "iec_battery_code": null
+    },
+    "reported_values": {
+      "rated_capacity_Ah": 16.0,
+      "number_of_specimens": 6.0
+    },
+    "license": {
+      "name": "ODbL 1.0",
+      "url": "https://opendatacommons.org/licenses/odbl/1.0/index.html"
+    },
+    "source_urls": [
+      "https://ora.ox.ac.uk/objects/uuid:9aae61af-2949-49f1-8ad5-6aea448979e5",
+      "https://doi.org/10.5287/bodleian:gJPdDzvP4"
+    ],
+    "publications": [
+      {
+        "url": "https://doi.org/10.1016/j.jpowsour.2020.229355",
+        "bib_citation": "reniers2021unlocking",
+        "authors": [
+          "Jorn M. Reniers",
+          "Grietus Mulder",
+          "David A. Howey"
+        ]
+      }
+    ]
+  }
+]

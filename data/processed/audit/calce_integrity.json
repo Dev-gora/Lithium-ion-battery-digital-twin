@@ -1,0 +1,30 @@
+{
+  "CS2_24.zip": {
+    "bytes": 127488412,
+    "sha256": "8bb7832b52c627247d8a21cc8b9833328eff5897414645a1f5699b1cec50fd9a",
+    "zip_testzip_bad_entry": null,
+    "entries": 54,
+    "xlsx_entries": 52
+  },
+  "CS2_3.zip": {
+    "bytes": 235649043,
+    "sha256": "375f6bb8e6bb8415fb01ea2fb54430f932d13b05fce89721dee77f34999109cd",
+    "zip_testzip_bad_entry": null,
+    "entries": 40,
+    "xlsx_entries": 39
+  },
+  "CS2_35.zip": {
+    "bytes": 37056519,
+    "sha256": "84d88cb98a43c02049f16c78806a78ec19084776ea5df8a4b7c2f8f7ba4589e5",
+    "zip_testzip_bad_entry": null,
+    "entries": 26,
+    "xlsx_entries": 25
+  },
+  "CS2_36.zip": {
+    "bytes": 37881685,
+    "sha256": "2e674f58bb6dc005c73bef10e87edbbd97afd041dde77a1d461a3c4ecac1b027",
+    "zip_testzip_bad_entry": null,
+    "entries": 27,
+    "xlsx_entries": 26
+  }
+}

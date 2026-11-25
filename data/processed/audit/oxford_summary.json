@@ -1,0 +1,66 @@
+{
+  "cells": 8,
+  "checkups_per_cell": {
+    "Cell1": 78,
+    "Cell2": 73,
+    "Cell3": 76,
+    "Cell4": 47,
+    "Cell5": 46,
+    "Cell6": 46,
+    "Cell7": 77,
+    "Cell8": 76
+  },
+  "max_drive_cycles": {
+    "Cell1": 8200,
+    "Cell2": 7700,
+    "Cell3": 8100,
+    "Cell4": 5100,
+    "Cell5": 5000,
+    "Cell6": 5000,
+    "Cell7": 8100,
+    "Cell8": 8100
+  },
+  "capacity_initial_mAh": {
+    "Cell1": 739.82,
+    "Cell2": 732.955,
+    "Cell3": 734.978,
+    "Cell4": 735.978,
+    "Cell5": 733.698,
+    "Cell6": 733.15,
+    "Cell7": 730.709,
+    "Cell8": 726.965
+  },
+  "capacity_final_mAh": {
+    "Cell1": 568.855,
+    "Cell2": 567.236,
+    "Cell3": 575.385,
+    "Cell4": 588.733,
+    "Cell5": 512.962,
+    "Cell6": 586.973,
+    "Cell7": 591.402,
+    "Cell8": 569.353
+  },
+  "soh_final_pct": {
+    "Cell1": 76.89,
+    "Cell2": 77.39,
+    "Cell3": 78.29,
+    "Cell4": 79.99,
+    "Cell5": 69.91,
+    "Cell6": 80.06,
+    "Cell7": 80.94,
+    "Cell8": 78.32
+  },
+  "median_checkup_sampling_s": 0.9999945759773254,
+  "voltage_range_V": [
+    2.699652,
+    4.2002144
+  ],
+  "temperature_range_C": [
+    0.51920921,
+    42.901863
+  ],
+  "nan_values": 0,
+  "native_soc_labels": false,
+  "soh_label": "pseudo-OCV discharge capacity / first check-up capacity",
+  "rul_label": "derived only; coarse 100-cycle resolution"
+}

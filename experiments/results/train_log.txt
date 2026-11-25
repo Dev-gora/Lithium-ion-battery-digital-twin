@@ -1,0 +1,11 @@
+cycle table: 32369 rows, 67 cells
+SOH [sensor_only] best=XGBoost MAE=0.0249
+SOH [capacity_aware] best=Random Forest MAE=0.0110
+RUL best=Random Forest MAE=68.9 cycles over 53 folds
+SOC B0005: best ML Random Forest MAE 0.0159 | EKF 0.0349 | CC 0.1193
+SOC B0006: best ML Ridge (linear baseline) MAE 0.0244 | EKF 0.0311 | CC 0.1334
+SOC B0007: best ML Random Forest MAE 0.0047 | EKF 0.0473 | CC 0.0928
+SOC B0018: best ML Random Forest MAE 0.0213 | EKF 0.0308 | CC 0.1094
+SOC best ML=Random Forest MAE=0.0168
+done in 36756s -> C:\Users\devgo\OneDrive\Desktop\ai ml\battery-digital-twin\experiments\results\metrics.json
+EXIT:0

@@ -1,0 +1,55 @@
+{
+  "cells": 2,
+  "chemistry": "NMC (Samsung INR18650-35E; provider abbreviation list states NMC)",
+  "rated_capacity_Ah": 3.4,
+  "raw_files": 14,
+  "cycles_measured": {
+    "Battery1": 600,
+    "Battery2": 600
+  },
+  "max_global_cycle": {
+    "Battery1": 600,
+    "Battery2": 601
+  },
+  "cycles_provider_soh": 580,
+  "measurement_rows": 1404621,
+  "median_sampling_s": 10.000000474974513,
+  "voltage_range_V": [
+    2.6497073,
+    4.2002287
+  ],
+  "temperature_range_C": [
+    17.6084,
+    35.537724
+  ],
+  "current_range_mA": [
+    -1703.304240386452,
+    1700.090907856822
+  ],
+  "soh_provider_initial": {
+    "Battery1": 0.974977128041086,
+    "Battery2": 0.970549611075148
+  },
+  "soh_provider_final": {
+    "Battery1": 0.830970979343988,
+    "Battery2": 0.821332119939009
+  },
+  "soh_measured_rated_final_pct": {
+    "Battery1": 82.97,
+    "Battery2": 81.99
+  },
+  "soh_measured_first_final_pct": {
+    "Battery1": 85.02,
+    "Battery2": 84.37
+  },
+  "provider_vs_measured_mae_pct": 0.284,
+  "provider_vs_measured_max_abs_pct": 2.422,
+  "native_soh_labels": true,
+  "native_soc_labels": false,
+  "soh_label": "provider SOH = Qdischarge / 3.4 Ah; harmonised SOH = Qdischarge / first measured Qdischarge",
+  "rul_label": "not reached: provider SOH ends at 83.1%/82.1% after 580 cycles",
+  "quality_flags": [
+    "raw blocks restart Cycle number at zero and have unequal lengths (100/30/70 cycles)",
+    "Battery2 block 0033 ends with a 366.5 mAh partial discharge that is excluded from SOH"
+  ]
+}

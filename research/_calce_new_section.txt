@@ -1,0 +1,792 @@
+# ---------------------------------------------------------------------------
+# CALCE CS2 prismatic cells (LCO)
+# ---------------------------------------------------------------------------
+
+CALCE_USECOLS = [
+    "Test_Time(s)",
+    "Date_Time",
+    "Step_Index",
+    "Cycle_Index",
+    "Current(A)",
+    "Voltage(V)",
+    "Charge_Capacity(Ah)",
+    "Discharge_Capacity(Ah)",
+]
+
+# The CS2 cells were not all tested with the same protocol.  These rules keep
+# each cell's SOH denominator tied to a physically comparable measurement.
+CALCE_RULES = {
+    "CS2_35": {
+        "mode": "full",
+        "basis": "discharge",
+        "min_capacity_Ah": 0.15,
+        "max_voltage_min_V": 2.8,
+    },
+    "CS2_36": {
+        "mode": "full",
+        "basis": "discharge",
+        "min_capacity_Ah": 0.15,
+        "max_voltage_min_V": 2.8,
+    },
+    "CS2_24": {
+        "mode": "checkup",
+        "basis": "discharge",
+        "min_capacity_Ah": 0.45,
+        "max_voltage_min_V": 3.2,
+    },
+    "CS2_3": {
+        "mode": "block",
+        "basis": "low-rate discharge",
+        "min_capacity_Ah": 0.05,
+        "min_discharge_steps": 5,
+    },
+}
+
+CALCE_SOH_BASIS = {
+    "CS2_35": "full-cycle discharge capacity (Vmin <= 2.8 V); partial cycles excluded",
+    "CS2_36": "full-cycle discharge capacity (Vmin <= 2.8 V); partial cycles excluded",
+    "CS2_24": "full check-up discharge capacity (Vmin <= 3.2 V, Qd >= 0.45 Ah); partial 3.78-4.2 V cycles excluded",
+    "CS2_3": "0.11 A (C/10) discharge capacity of each six-rate block; block charge throughput recorded separately",
+}
+
+
+def _calce_info_start(path: Path) -> datetime | None:
+    """Return the test start datetime recorded on the Info sheet."""
+    try:
+        info = pd.read_excel(path, sheet_name="Info", header=None, nrows=10)
+    except Exception:
+        return None
+    for value in info.to_numpy().ravel():
+        if isinstance(value, datetime):
+            return pd.Timestamp(value).to_pydatetime()
+    return None
+
+
+def _calce_name_date(name: str) -> datetime | None:
+    """Parse the date suffix used by CALCE exports, e.g. CS2_35_2_4_11.xlsx."""
+    match = re.search(r"_(\d{1,2})_(\d{1,2})_(\d{2})\.xlsx$", name)
+    if not match:
+        return None
+    month, day, year = (int(part) for part in match.groups())
+    try:
+        return datetime(2000 + year, month, day)
+    except ValueError:
+        return None
+
+
+def _calce_channel_sheets(path: Path) -> list[str]:
+    try:
+        names = pd.ExcelFile(path).sheet_names
+    except Exception:
+        return []
+    return [str(name) for name in names if str(name).startswith("Channel")]
+
+
+def _calce_read_sheet(path: Path, sheet: str) -> pd.DataFrame:
+    """Read the audit columns, tolerating column-name whitespace."""
+    try:
+        return pd.read_excel(path, sheet_name=sheet, usecols=CALCE_USECOLS)
+    except ValueError:
+        frame = pd.read_excel(path, sheet_name=sheet)
+        frame.columns = [str(column).strip() for column in frame.columns]
+        missing = [column for column in CALCE_USECOLS if column not in frame.columns]
+        if missing:
+            raise ValueError(f"missing columns on {sheet}: {missing}") from None
+        return frame.loc[:, CALCE_USECOLS].copy()
+
+
+def _calce_signature(row: dict) -> tuple:
+    """A hashable measured-trajectory fingerprint for one cycle/block."""
+
+    def number(key: str) -> float | None:
+        value = row.get(key)
+        try:
+            value = float(value)
+        except (TypeError, ValueError):
+            return None
+        return round(value, 8) if np.isfinite(value) else None
+
+    return (
+        row.get("start_datetime"),
+        number("capacity_Ah"),
+        number("qd_Ah"),
+        number("qc_Ah"),
+        number("voltage_min_V"),
+        number("voltage_max_V"),
+        number("duration_s"),
+        row.get("samples"),
+    )
+
+
+def _calce_cycle_metrics(
+    group: pd.DataFrame,
+    cell: str,
+    rule: dict,
+    capture_curve: bool,
+) -> tuple[dict, tuple[np.ndarray, np.ndarray] | None]:
+    qd = pd.to_numeric(group["Discharge_Capacity(Ah)"], errors="coerce")
+    qc = pd.to_numeric(group["Charge_Capacity(Ah)"], errors="coerce")
+    current = pd.to_numeric(group["Current(A)"], errors="coerce")
+    voltage = pd.to_numeric(group["Voltage(V)"], errors="coerce")
+    test_time = pd.to_numeric(group["Test_Time(s)"], errors="coerce")
+    timestamps = group["_timestamp"]
+
+    qd_span = float(qd.max() - qd.min()) if qd.notna().any() else float("nan")
+    qc_span = float(qc.max() - qc.min()) if qc.notna().any() else float("nan")
+    vmin = float(voltage.min()) if voltage.notna().any() else float("nan")
+    vmax = float(voltage.max()) if voltage.notna().any() else float("nan")
+    imin = float(current.min()) if current.notna().any() else float("nan")
+    imax = float(current.max()) if current.notna().any() else float("nan")
+
+    n_nan = int(
+        qd.isna().sum()
+        + qc.isna().sum()
+        + current.isna().sum()
+        + voltage.isna().sum()
+    )
+    out_of_range = int(
+        ((voltage < 2.0) | (voltage > 4.5)).sum()
+        + (current.abs() > 3.0).sum()
+    )
+    if test_time.notna().any():
+        duration = float(test_time.max() - test_time.min())
+    elif timestamps.notna().any():
+        duration = float((timestamps.max() - timestamps.min()).total_seconds())
+    else:
+        duration = float("nan")
+
+    # Each full discharge step gives a capacity at a known current.  CS2_3 is
+    # a six-rate characterisation block; the slowest step is the most direct
+    # capacity measure, while the total block throughput is still recorded.
+    step_caps: list[tuple[float, float]] = []
+    for _, step_group in group.groupby("Step_Index", sort=True):
+        step_current = pd.to_numeric(step_group["Current(A)"], errors="coerce")
+        step_qd = pd.to_numeric(step_group["Discharge_Capacity(Ah)"], errors="coerce")
+        span = float(step_qd.max() - step_qd.min()) if step_qd.notna().any() else 0.0
+        mean_current = float(step_current.mean()) if step_current.notna().any() else 0.0
+        if mean_current < -0.05 and span > 0.002:
+            step_caps.append((abs(mean_current), span))
+
+    n_discharge_steps = len(step_caps)
+    low_rate_capacity = (
+        min(step_caps, key=lambda item: item[0])[1] if step_caps else float("nan")
+    )
+
+    if rule["mode"] == "block":
+        capacity = low_rate_capacity
+        valid = (
+            np.isfinite(capacity)
+            and capacity >= rule["min_capacity_Ah"]
+            and n_discharge_steps >= rule["min_discharge_steps"]
+        )
+        cycle_type = "block" if valid else "partial_block"
+    else:
+        capacity = qd_span
+        valid = (
+            np.isfinite(capacity)
+            and capacity >= rule["min_capacity_Ah"]
+            and np.isfinite(vmin)
+            and vmin <= rule["max_voltage_min_V"]
+        )
+        cycle_type = (
+            ("full" if rule["mode"] == "full" else "checkup") if valid else "partial"
+        )
+
+    start_iso = end_iso = None
+    if timestamps.notna().any():
+        start = timestamps.min()
+        end = timestamps.max()
+        start_iso = start.isoformat() if pd.notna(start) else None
+        end_iso = end.isoformat() if pd.notna(end) else None
+
+    row = {
+        "cell_id": cell,
+        "cycle_type": cycle_type,
+        "basis": rule["basis"],
+        "capacity_Ah": capacity,
+        "qd_Ah": qd_span,
+        "qc_Ah": qc_span,
+        "low_rate_capacity_Ah": low_rate_capacity,
+        "n_discharge_steps": n_discharge_steps,
+        "voltage_min_V": vmin,
+        "voltage_max_V": vmax,
+        "current_min_A": imin,
+        "current_max_A": imax,
+        "duration_s": duration,
+        "samples": int(len(group)),
+        "n_nan": n_nan,
+        "out_of_range": out_of_range,
+        "start_datetime": start_iso,
+        "end_datetime": end_iso,
+    }
+
+    curve = None
+    if capture_curve and cycle_type == "full":
+        mask = (current < -0.05) & voltage.notna() & qd.notna()
+        seg_q = qd[mask].to_numpy(dtype=float)
+        seg_v = voltage[mask].to_numpy(dtype=float)
+        if seg_q.size >= 20 and np.nanmax(seg_q) - np.nanmin(seg_q) > 0.05:
+            seg_q = seg_q - np.nanmin(seg_q)
+            order = np.argsort(seg_q)
+            seg_q, seg_v = seg_q[order], seg_v[order]
+            keep = np.concatenate(([True], np.diff(seg_q) > 0))
+            seg_q, seg_v = seg_q[keep], seg_v[keep]
+            stride = max(1, seg_q.size // 300)
+            curve = (seg_q[::stride], seg_v[::stride])
+
+    return row, curve
+
+
+def _calce_sustained_eol(
+    df: pd.DataFrame,
+    eligible_mask: pd.Series,
+    window: int,
+    run: int,
+) -> dict:
+    """Find an EOL crossing that persists for several eligible cycles."""
+    sub = df.loc[eligible_mask].sort_values("global_cycle")
+    if sub.empty:
+        return {
+            "cycle": None,
+            "first_below": None,
+            "confirmed": False,
+            "final_soh": float("nan"),
+            "window": window,
+            "run": run,
+        }
+
+    soh = sub["soh"].astype(float)
+    rolled = soh.rolling(window=window, min_periods=window).median()
+    below = rolled <= 0.8
+
+    first_below = None
+    for cycle, value in zip(sub["global_cycle"], soh):
+        if np.isfinite(value) and value <= 0.8:
+            first_below = int(cycle)
+            break
+
+    eol_cycle = None
+    count = 0
+    run_start = None
+    for cycle, flag in zip(sub["global_cycle"], below):
+        if bool(flag):
+            if count == 0:
+                run_start = int(cycle)
+            count += 1
+            if count >= run:
+                eol_cycle = run_start
+                break
+        else:
+            count = 0
+            run_start = None
+
+    final_soh = float(soh.dropna().iloc[-1]) if soh.notna().any() else float("nan")
+    return {
+        "cycle": eol_cycle,
+        "first_below": first_below,
+        "confirmed": bool(np.isfinite(final_soh) and final_soh <= 0.8),
+        "final_soh": final_soh,
+        "window": window,
+        "run": run,
+    }
+
+
+def calce_analysis() -> tuple[pd.DataFrame, dict]:
+    root = RAW / "CALCE" / "extracted"
+    files = sorted(root.glob("CS2_*/*/*.xlsx"))
+    by_cell: dict[str, list[Path]] = {}
+    for path in files:
+        match = re.match(r"(CS2_\d+)_", path.name)
+        if match:
+            by_cell.setdefault(match.group(1), []).append(path)
+
+    all_cycles: list[dict] = []
+    inventory: list[dict] = []
+    cell_meta: dict[str, dict] = {}
+    audit_curves: dict[tuple[str, int], tuple[np.ndarray, np.ndarray]] = {}
+
+    for cell, paths in sorted(by_cell.items()):
+        rule = CALCE_RULES.get(cell)
+        if rule is None:
+            continue
+
+        # File order is only a tie-breaker: cycle order is assigned later from
+        # the measured Date_Time.  Earlier filename dates win duplicate ties.
+        paths = sorted(
+            paths,
+            key=lambda item: (
+                _calce_info_start(item)
+                or _calce_name_date(item.name)
+                or datetime(1900, 1, 1),
+                item.name,
+            ),
+        )
+
+        cell_rows: list[dict] = []
+        file_infos: list[dict] = []
+        seen_files: dict[tuple, str] = {}
+        curves: dict[tuple[str, int], tuple[np.ndarray, np.ndarray]] = {}
+        print(f"CALCE {cell}: {len(paths)} files", flush=True)
+
+        for index, path in enumerate(paths, 1):
+            start_info = _calce_info_start(path)
+            sheets = _calce_channel_sheets(path)
+            if not sheets:
+                file_infos.append(
+                    {
+                        "cell_id": cell,
+                        "file": path.name,
+                        "start_datetime_info": start_info.isoformat() if start_info else None,
+                        "channel_sheets": None,
+                        "rows_raw": 0,
+                        "rows_used": 0,
+                        "duplicate_rows_removed": 0,
+                        "cycles": 0,
+                        "duplicate_file_of": None,
+                        "median_sampling_s": None,
+                        "voltage_min_V": None,
+                        "voltage_max_V": None,
+                        "current_min_A": None,
+                        "current_max_A": None,
+                        "n_nan": 0,
+                        "timestamp_nat": 0,
+                        "out_of_range": 0,
+                        "error": "no Channel sheet",
+                    }
+                )
+                continue
+
+            frames = []
+            try:
+                for sheet in sheets:
+                    frame = _calce_read_sheet(path, sheet)
+                    frame["channel_sheet"] = sheet
+                    frames.append(frame)
+            except Exception as error:  # noqa: BLE001 - keep auditing other files
+                file_infos.append(
+                    {
+                        "cell_id": cell,
+                        "file": path.name,
+                        "start_datetime_info": start_info.isoformat() if start_info else None,
+                        "channel_sheets": ";".join(sheets),
+                        "rows_raw": 0,
+                        "rows_used": 0,
+                        "duplicate_rows_removed": 0,
+                        "cycles": 0,
+                        "duplicate_file_of": None,
+                        "median_sampling_s": None,
+                        "voltage_min_V": None,
+                        "voltage_max_V": None,
+                        "current_min_A": None,
+                        "current_max_A": None,
+                        "n_nan": 0,
+                        "timestamp_nat": 0,
+                        "out_of_range": 0,
+                        "error": f"{type(error).__name__}: {error}",
+                    }
+                )
+                continue
+
+            raw = pd.concat(frames, ignore_index=True)
+            raw.columns = [str(column).strip() for column in raw.columns]
+            for column in [
+                "Test_Time(s)",
+                "Step_Index",
+                "Cycle_Index",
+                "Current(A)",
+                "Voltage(V)",
+                "Charge_Capacity(Ah)",
+                "Discharge_Capacity(Ah)",
+            ]:
+                raw[column] = pd.to_numeric(raw[column], errors="coerce")
+            raw["Date_Time"] = pd.to_datetime(raw["Date_Time"], errors="coerce")
+
+            rows_raw = int(len(raw))
+
+            # Multi-channel CS2_3 exports repeat the boundary row.  De-duplicate
+            # only rows with a real timestamp so NaT rows are never collapsed.
+            valid_time = raw["Date_Time"].notna()
+            deduped = raw.loc[valid_time].drop_duplicates(
+                subset=["Date_Time"], keep="first"
+            )
+            raw = pd.concat([deduped, raw.loc[~valid_time]], ignore_index=True)
+            duplicate_rows = rows_raw - int(len(raw))
+
+            raw = raw.dropna(
+                subset=["Cycle_Index", "Test_Time(s)", "Voltage(V)"]
+            ).copy()
+            if raw.empty:
+                file_infos.append(
+                    {
+                        "cell_id": cell,
+                        "file": path.name,
+                        "start_datetime_info": start_info.isoformat() if start_info else None,
+                        "channel_sheets": ";".join(sheets),
+                        "rows_raw": rows_raw,
+                        "rows_used": 0,
+                        "duplicate_rows_removed": duplicate_rows,
+                        "cycles": 0,
+                        "duplicate_file_of": None,
+                        "median_sampling_s": None,
+                        "voltage_min_V": None,
+                        "voltage_max_V": None,
+                        "current_min_A": None,
+                        "current_max_A": None,
+                        "n_nan": 0,
+                        "timestamp_nat": 0,
+                        "out_of_range": 0,
+                        "error": "no valid rows after parsing",
+                    }
+                )
+                continue
+
+            raw["Cycle_Index"] = raw["Cycle_Index"].astype(int)
+
+            base = pd.Timestamp(start_info) if start_info else pd.Timestamp("1970-01-01")
+            if raw["Date_Time"].notna().any():
+                timestamps = raw["Date_Time"].copy()
+                if timestamps.isna().any():
+                    timestamps = timestamps.fillna(
+                        base + pd.to_timedelta(raw["Test_Time(s)"], unit="s")
+                    )
+            else:
+                timestamps = base + pd.to_timedelta(raw["Test_Time(s)"], unit="s")
+            raw["_timestamp"] = timestamps
+
+            dt = med_dt(raw["Test_Time(s)"].to_numpy())
+            file_cycles: list[dict] = []
+            file_curves: dict[tuple[str, int], tuple[np.ndarray, np.ndarray]] = {}
+
+            for local_cycle, group in raw.groupby("Cycle_Index", sort=True):
+                row, curve = _calce_cycle_metrics(
+                    group,
+                    cell,
+                    rule,
+                    capture_curve=cell in {"CS2_35", "CS2_36"},
+                )
+                row["file"] = path.name
+                row["local_cycle"] = int(local_cycle)
+                file_cycles.append(row)
+                if curve is not None:
+                    file_curves[(path.name, int(local_cycle))] = curve
+
+            file_signature = tuple(
+                sorted((_calce_signature(row) for row in file_cycles), key=repr)
+            )
+            duplicate_of = seen_files.get(file_signature)
+            duplicate_file = duplicate_of is not None
+            if not duplicate_file:
+                seen_files[file_signature] = path.name
+                cell_rows.extend(file_cycles)
+                curves.update(file_curves)
+
+            file_infos.append(
+                {
+                    "cell_id": cell,
+                    "file": path.name,
+                    "start_datetime_info": start_info.isoformat() if start_info else None,
+                    "channel_sheets": ";".join(sheets),
+                    "rows_raw": rows_raw,
+                    "rows_used": int(len(raw)),
+                    "duplicate_rows_removed": int(duplicate_rows),
+                    "cycles": int(len(file_cycles)),
+                    "duplicate_file_of": duplicate_of,
+                    "median_sampling_s": dt,
+                    "voltage_min_V": float(raw["Voltage(V)"].min()),
+                    "voltage_max_V": float(raw["Voltage(V)"].max()),
+                    "current_min_A": float(raw["Current(A)"].min()),
+                    "current_max_A": float(raw["Current(A)"].max()),
+                    "n_nan": int(
+                        raw[
+                            [
+                                "Current(A)",
+                                "Voltage(V)",
+                                "Charge_Capacity(Ah)",
+                                "Discharge_Capacity(Ah)",
+                            ]
+                        ]
+                        .isna()
+                        .sum()
+                        .sum()
+                    ),
+                    "timestamp_nat": int(raw["Date_Time"].isna().sum()),
+                    "out_of_range": int(
+                        ((raw["Voltage(V)"] < 2.0) | (raw["Voltage(V)"] > 4.5)).sum()
+                        + (raw["Current(A)"].abs() > 3.0).sum()
+                    ),
+                }
+            )
+            print(
+                f"CALCE {cell}: {index}/{len(paths)} {path.name} "
+                f"rows={len(raw)} cycles={len(file_cycles)} duplicate={duplicate_file}",
+                flush=True,
+            )
+
+        if not cell_rows:
+            continue
+
+        df = pd.DataFrame(cell_rows)
+        df["_sort_time"] = pd.to_datetime(df["start_datetime"], errors="coerce")
+        df = (
+            df.sort_values(
+                ["_sort_time", "file", "local_cycle"], na_position="last"
+            )
+            .drop(columns=["_sort_time"])
+            .reset_index(drop=True)
+        )
+
+        # Safety net for overlapping exports that are not whole-file duplicates.
+        signatures = [_calce_signature(row) for row in df.to_dict("records")]
+        seen_cycles = set()
+        keep_cycle: list[bool] = []
+        for signature in signatures:
+            if signature in seen_cycles:
+                keep_cycle.append(False)
+            else:
+                seen_cycles.add(signature)
+                keep_cycle.append(True)
+        duplicate_cycles_removed = int(len(keep_cycle) - sum(keep_cycle))
+        df = df.loc[keep_cycle].reset_index(drop=True)
+        df["global_cycle"] = np.arange(1, len(df) + 1)
+
+        eligible_mask = df["cycle_type"].isin(["full", "checkup", "block"])
+        eligible = df.loc[eligible_mask].sort_values("global_cycle")
+        if eligible.empty:
+            continue
+
+        first_capacity = float(eligible["capacity_Ah"].iloc[0])
+        if not np.isfinite(first_capacity) or first_capacity <= 0:
+            continue
+
+        df["soh"] = np.nan
+        df.loc[eligible_mask, "soh"] = (
+            df.loc[eligible_mask, "capacity_Ah"] / first_capacity
+        )
+
+        final_row = eligible.iloc[-1]
+        partial_capacity = df.loc[~eligible_mask, "capacity_Ah"].dropna()
+        window, run = (3, 2) if rule["mode"] == "checkup" else (5, 3)
+        eol = _calce_sustained_eol(df, eligible_mask, window, run)
+
+        sampling = [
+            float(info["median_sampling_s"])
+            for info in file_infos
+            if info.get("median_sampling_s")
+        ]
+        cell_meta[cell] = {
+            "files": len(paths),
+            "files_processed": len(file_infos),
+            "files_unique": int(
+                sum(1 for info in file_infos if not info.get("duplicate_file_of"))
+            ),
+            "duplicate_trajectory_files": [
+                {"file": info["file"], "duplicate_of": info["duplicate_file_of"]}
+                for info in file_infos
+                if info.get("duplicate_file_of")
+            ],
+            "duplicate_cycles_removed": duplicate_cycles_removed,
+            "measurement_rows_unique": int(
+                sum(
+                    int(info.get("rows_used", 0))
+                    for info in file_infos
+                    if not info.get("duplicate_file_of")
+                )
+            ),
+            "cycles_total": int(len(df)),
+            "cycles_eligible": int(eligible_mask.sum()),
+            "cycle_type_counts": {
+                str(key): int(value)
+                for key, value in df["cycle_type"].value_counts().items()
+            },
+            "soh_basis": CALCE_SOH_BASIS.get(cell, rule["basis"]),
+            "first_capacity_Ah": round(first_capacity, 4),
+            "final_capacity_Ah": round(float(final_row["capacity_Ah"]), 4),
+            "final_soh_pct": round(100 * float(final_row["soh"]), 2),
+            "min_soh_pct": round(100 * float(eligible["soh"].min()), 2),
+            "max_global_cycle": int(df["global_cycle"].max()),
+            "eol_80pct_cycle": eol["cycle"],
+            "eol_80pct_first_single_cycle": eol["first_below"],
+            "eol_confirmed": eol["confirmed"],
+            "eol_method": (
+                f"trailing rolling median ({window} eligible cycles), "
+                f"{run} consecutive cycles <= 80%"
+            ),
+            "voltage_range_V": [
+                round(float(df["voltage_min_V"].min()), 4),
+                round(float(df["voltage_max_V"].max()), 4),
+            ],
+            "current_range_A": [
+                round(float(df["current_min_A"].min()), 4),
+                round(float(df["current_max_A"].max()), 4),
+            ],
+            "median_sampling_s": (
+                round(float(np.median(sampling)), 4) if sampling else None
+            ),
+            "n_nan": int(df["n_nan"].sum()),
+            "out_of_range": int(df["out_of_range"].sum()),
+            "partial_capacity_range_Ah": (
+                [
+                    round(float(partial_capacity.min()), 4),
+                    round(float(partial_capacity.max()), 4),
+                ]
+                if len(partial_capacity)
+                else None
+            ),
+            "native_temperature": False,
+            "native_soc_labels": False,
+        }
+
+        all_cycles.extend(df.to_dict("records"))
+        inventory.extend(file_infos)
+
+        for cycle_row in df.loc[eligible_mask].to_dict("records"):
+            key = (cycle_row["file"], int(cycle_row["local_cycle"]))
+            if key in curves:
+                audit_curves[(cell, int(cycle_row["global_cycle"]))] = curves[key]
+
+    cycles_df = pd.DataFrame(all_cycles)
+    if not cycles_df.empty:
+        cycles_df = cycles_df.sort_values(["cell_id", "global_cycle"]).reset_index(
+            drop=True
+        )
+        cycles_df.to_csv(AUDIT / "calce_cycles.csv", index=False)
+
+    inventory_df = pd.DataFrame(inventory)
+    if not inventory_df.empty:
+        inventory_df.to_csv(AUDIT / "calce_file_inventory.csv", index=False)
+
+    if not cycles_df.empty:
+        eligible_df = cycles_df[cycles_df["soh"].notna()].copy()
+        fig, (ax_a, ax_b) = plt.subplots(
+            1,
+            2,
+            figsize=(10.8, 4.2),
+            gridspec_kw={"width_ratios": [2.1, 1.0]},
+            sharey=True,
+        )
+        for color, (cell, group) in zip(COLORS, eligible_df.groupby("cell_id")):
+            group = group.sort_values("global_cycle")
+            first_type = str(group["cycle_type"].iloc[0])
+            panel = ax_b if first_type == "checkup" else ax_a
+            basis_label = {
+                "checkup": "check-up",
+                "block": "low-rate",
+                "full": "full-cycle",
+            }.get(first_type, first_type)
+            label = f"{cell} ({basis_label})"
+            panel.plot(
+                group["global_cycle"],
+                100 * group["soh"],
+                color=color,
+                lw=1.4,
+                label=label,
+            )
+            eol_cycle = cell_meta.get(cell, {}).get("eol_80pct_cycle")
+            if eol_cycle is not None:
+                point = group[group["global_cycle"] == eol_cycle]
+                if not point.empty:
+                    panel.scatter(
+                        point["global_cycle"],
+                        100 * point["soh"],
+                        color=color,
+                        s=24,
+                        zorder=5,
+                        edgecolor="white",
+                        linewidth=0.4,
+                    )
+
+        for panel in (ax_a, ax_b):
+            panel.axhline(80, color="#4d4d4d", ls="--", lw=1, label="80% EOL")
+            panel.set_ylim(0, 105)
+            panel.set_xlabel("Global cycle number")
+        ax_a.set_ylabel("SOH / %")
+        ax_a.set_title("Full-cycle cells and six-rate blocks")
+        ax_b.set_title("CS2_24 partial cycling")
+        ax_a.legend(frameon=False, fontsize=7, loc="lower left")
+        ax_b.legend(frameon=False, fontsize=7, loc="lower left")
+        fig.suptitle(
+            "CALCE CS2 prismatic cells: measured capacity fade (eligible cycles only)",
+            fontweight="bold",
+        )
+        fig.tight_layout()
+        save_fig(fig, "fig11_calce_soh.png")
+
+        if audit_curves:
+            curve_cell = (
+                "CS2_35"
+                if any(cell == "CS2_35" for cell, _ in audit_curves)
+                else sorted({cell for cell, _ in audit_curves})[0]
+            )
+            available = sorted(
+                cycle for cell, cycle in audit_curves if cell == curve_cell
+            )
+            if available:
+                picks = sorted(
+                    {available[0], available[len(available) // 2], available[-1]}
+                )
+                fig, ax = plt.subplots(figsize=(6.8, 4.2))
+                for color, cycle in zip(COLORS, picks):
+                    q, v = audit_curves[(curve_cell, cycle)]
+                    row = cycles_df[
+                        (cycles_df["cell_id"] == curve_cell)
+                        & (cycles_df["global_cycle"] == cycle)
+                    ]
+                    soh_text = (
+                        f"{100 * float(row['soh'].iloc[0]):.0f}% SOH"
+                        if not row.empty
+                        else ""
+                    )
+                    ax.plot(
+                        1000 * q,
+                        v,
+                        color=color,
+                        lw=1.4,
+                        label=f"cycle {cycle} ({soh_text})",
+                    )
+                ax.set(xlabel="Discharged capacity / mAh", ylabel="Voltage / V")
+                ax.legend(frameon=False)
+                ax.set_title(
+                    f"CALCE {curve_cell}: discharge curves at three ages",
+                    fontweight="bold",
+                )
+                save_fig(fig, "fig12_calce_curves.png")
+
+    total_rows = int(sum(int(info.get("rows_used", 0)) for info in inventory))
+    unique_rows = int(
+        sum(
+            int(info.get("rows_used", 0))
+            for info in inventory
+            if not info.get("duplicate_file_of")
+        )
+    )
+    summary = {
+        "cells": cell_meta,
+        "chemistry": "LiCoO2 cathode with trace Mn (provider statement)",
+        "files": len(inventory),
+        "files_unique": int(
+            sum(1 for info in inventory if not info.get("duplicate_file_of"))
+        ),
+        "measurement_rows": total_rows,
+        "measurement_rows_unique": unique_rows,
+        "native_soc_labels": False,
+        "native_temperature": False,
+        "soh_label": (
+            "measured capacity normalised to the first eligible cycle of each "
+            "cell; basis differs by test design"
+        ),
+        "rul_label": "derived from a sustained rolling-median measured SOH crossing 80%",
+        "notes": [
+            "CALCE CS2 Arbin exports contain no temperature channel and no native SOC label.",
+            "Cycle_Index, capacity counters and Data_Point restart or split across spreadsheets; files were ordered by measured Date_Time, not filename.",
+            "CS2_3 each Cycle_Index is a six-rate characterisation block; the second Channel sheet continues the same counters and shares one boundary row, which was de-duplicated by Date_Time.",
+            "CS2_3 SOH uses the 0.11 A discharge capacity of each block. Block charge/discharge throughput varies with where the six-rate block boundary falls and is recorded only as a diagnostic.",
+            "CS2_24 is partial cycling between 3.78 V and 4.2 V with exactly one full check-up at cycle 1 of each file.",
+            "CS2_35_2_10_11.xlsx is an exact measured-trajectory duplicate of CS2_35_2_4_11.xlsx and was excluded.",
+            "Partial cycles are retained in calce_cycles.csv with blank SOH so they can be audited but are excluded from SOH/RUL labels.",
+            "EOL requires a sustained run of rolling-median SOH <= 80%, not a single low cycle.",
+        ],
+    }
+    (AUDIT / "calce_summary.json").write_text(
+        json.dumps(summary, indent=2), encoding="utf-8"
+    )
+    return cycles_df, summary

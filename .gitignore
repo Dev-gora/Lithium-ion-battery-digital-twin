@@ -1,0 +1,34 @@
+# Python
+*.pyc
+__pycache__/
+.pytest_cache/
+.coverage
+.env
+.env.local
+*.env*.sonar
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+# Streamlit / App artifacts
+.site/
+.streamlit/
+
+# Data (raw is never modified, but processed data is derived)
+data/raw/
+
+# Generated site (static export for Netlify)
+site/
+
+# Plotly/Joblib caches
+**/joblib/
+**/.cache/
+
+# IDE / OS
+*.swp
+*.swo
+.DS_Store
+.vscode/
+.idea/

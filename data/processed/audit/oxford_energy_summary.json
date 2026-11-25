@@ -1,0 +1,141 @@
+{
+  "cells": 6,
+  "rated_capacity_Ah": 16.0,
+  "measured_capacity_initial_Ah": {
+    "BMP_cell1": 17.226,
+    "BMP_cell2": 17.262,
+    "BMR_cell1": 17.226,
+    "BMR_cell2": 17.23,
+    "SPM_cell1": 17.182,
+    "SPM_cell2": 17.153
+  },
+  "capacity_retention_final_pct": {
+    "BMP_cell1": 97.53,
+    "BMP_cell2": 97.56,
+    "BMR_cell1": 85.97,
+    "BMR_cell2": 85.15,
+    "SPM_cell1": 98.35,
+    "SPM_cell2": 98.23
+  },
+  "capacity_checkups": {
+    "BMP_cell1": 13,
+    "BMP_cell2": 13,
+    "BMR_cell1": 13,
+    "BMR_cell2": 13,
+    "SPM_cell1": 13,
+    "SPM_cell2": 13
+  },
+  "profiles": {
+    "BMP_cell1": {
+      "samples": 69715,
+      "duration_days": 362.9982094212963,
+      "median_sampling_s": 600.0,
+      "current_range_A": [
+        -16.972,
+        16.973
+      ],
+      "voltage_range_V": [
+        0.0,
+        4.0876452
+      ],
+      "cell_temperature_range_C": [
+        23.66,
+        28.89
+      ],
+      "zero_temperature_samples": 29737
+    },
+    "BMP_cell2": {
+      "samples": 73023,
+      "duration_days": 362.9975313888889,
+      "median_sampling_s": 600.0,
+      "current_range_A": [
+        -17.011,
+        16.972
+      ],
+      "voltage_range_V": [
+        0.0,
+        4.1233368
+      ],
+      "cell_temperature_range_C": [
+        23.75,
+        29.01
+      ],
+      "zero_temperature_samples": 33062
+    },
+    "BMR_cell1": {
+      "samples": 228134,
+      "duration_days": 362.9936767013889,
+      "median_sampling_s": 27.378499999642372,
+      "current_range_A": [
+        -27.078,
+        24.801
+      ],
+      "voltage_range_V": [
+        0.0,
+        4.240042
+      ],
+      "cell_temperature_range_C": [
+        23.86,
+        38.24
+      ],
+      "zero_temperature_samples": 304818
+    },
+    "BMR_cell2": {
+      "samples": 255615,
+      "duration_days": 362.9883861574074,
+      "median_sampling_s": 22.28999999910593,
+      "current_range_A": [
+        -27.073,
+        24.835
+      ],
+      "voltage_range_V": [
+        0.0,
+        4.2368688
+      ],
+      "cell_temperature_range_C": [
+        24.05,
+        46.69
+      ],
+      "zero_temperature_samples": 331577
+    },
+    "SPM_cell1": {
+      "samples": 77949,
+      "duration_days": 362.99498368055555,
+      "median_sampling_s": 553.5149999996647,
+      "current_range_A": [
+        -29.254,
+        22.296
+      ],
+      "voltage_range_V": [
+        0.0,
+        4.2006904
+      ],
+      "cell_temperature_range_C": [
+        23.69,
+        50.49
+      ],
+      "zero_temperature_samples": 50826
+    },
+    "SPM_cell2": {
+      "samples": 76626,
+      "duration_days": 362.98883880787037,
+      "median_sampling_s": 543.2269999999553,
+      "current_range_A": [
+        -29.223,
+        22.3
+      ],
+      "voltage_range_V": [
+        0.0,
+        4.200586
+      ],
+      "cell_temperature_range_C": [
+        23.69,
+        31.13
+      ],
+      "zero_temperature_samples": 48402
+    }
+  },
+  "native_soc_labels": false,
+  "soh_label": "measured 1C capacity / first measured capacity",
+  "rul_label": "not available (no EOL reached)"
+}

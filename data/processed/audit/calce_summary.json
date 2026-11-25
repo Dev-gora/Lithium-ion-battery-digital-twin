@@ -1,0 +1,192 @@
+{
+  "cells": {
+    "CS2_24": {
+      "files": 52,
+      "files_processed": 52,
+      "files_unique": 52,
+      "duplicate_trajectory_files": [],
+      "duplicate_cycles_removed": 0,
+      "measurement_rows_unique": 859368,
+      "cycles_total": 4989,
+      "cycles_eligible": 52,
+      "cycle_type_counts": {
+        "partial": 4937,
+        "checkup": 52
+      },
+      "soh_basis": "full check-up discharge capacity (Vmin <= 3.2 V, Qd >= 0.45 Ah); partial 3.78-4.2 V cycles excluded",
+      "first_capacity_Ah": 1.4722,
+      "final_capacity_Ah": 0.7864,
+      "final_soh_pct": 53.41,
+      "min_soh_pct": 52.95,
+      "max_global_cycle": 4989,
+      "eol_80pct_cycle": 3065,
+      "eol_80pct_first_single_cycle": 2965,
+      "eol_confirmed": true,
+      "eol_method": "trailing rolling median (3 eligible cycles), 2 consecutive cycles <= 80%",
+      "voltage_range_V": [
+        2.6997,
+        4.201
+      ],
+      "current_range_A": [
+        -0.6755,
+        1.1916
+      ],
+      "median_sampling_s": 30.0152,
+      "n_nan": 0,
+      "out_of_range": 0,
+      "partial_capacity_range_Ah": [
+        0.0,
+        0.4223
+      ],
+      "native_temperature": false,
+      "native_soc_labels": false
+    },
+    "CS2_3": {
+      "files": 39,
+      "files_processed": 39,
+      "files_unique": 39,
+      "duplicate_trajectory_files": [],
+      "duplicate_cycles_removed": 0,
+      "measurement_rows_unique": 1754834,
+      "cycles_total": 873,
+      "cycles_eligible": 168,
+      "cycle_type_counts": {
+        "partial_block": 705,
+        "block": 168
+      },
+      "soh_basis": "0.11 A (C/10) discharge capacity of each six-rate block; block charge throughput recorded separately",
+      "first_capacity_Ah": 1.1043,
+      "final_capacity_Ah": 0.4108,
+      "final_soh_pct": 37.2,
+      "min_soh_pct": 37.2,
+      "max_global_cycle": 873,
+      "eol_80pct_cycle": 147,
+      "eol_80pct_first_single_cycle": 145,
+      "eol_confirmed": true,
+      "eol_method": "trailing rolling median (5 eligible cycles), 3 consecutive cycles <= 80%",
+      "voltage_range_V": [
+        1.9627,
+        4.2314
+      ],
+      "current_range_A": [
+        -5.918,
+        0.6755
+      ],
+      "median_sampling_s": 10.0154,
+      "n_nan": 0,
+      "out_of_range": 2,
+      "partial_capacity_range_Ah": [
+        0.0047,
+        1.1046
+      ],
+      "native_temperature": false,
+      "native_soc_labels": false
+    },
+    "CS2_35": {
+      "files": 25,
+      "files_processed": 25,
+      "files_unique": 24,
+      "duplicate_trajectory_files": [
+        {
+          "file": "CS2_35_2_10_11.xlsx",
+          "duplicate_of": "CS2_35_2_4_11.xlsx"
+        }
+      ],
+      "duplicate_cycles_removed": 0,
+      "measurement_rows_unique": 258825,
+      "cycles_total": 886,
+      "cycles_eligible": 880,
+      "cycle_type_counts": {
+        "full": 880,
+        "partial": 6
+      },
+      "soh_basis": "full-cycle discharge capacity (Vmin <= 2.8 V); partial cycles excluded",
+      "first_capacity_Ah": 1.1385,
+      "final_capacity_Ah": 0.3036,
+      "final_soh_pct": 26.67,
+      "min_soh_pct": 21.63,
+      "max_global_cycle": 886,
+      "eol_80pct_cycle": 548,
+      "eol_80pct_first_single_cycle": 127,
+      "eol_confirmed": true,
+      "eol_method": "trailing rolling median (5 eligible cycles), 3 consecutive cycles <= 80%",
+      "voltage_range_V": [
+        2.6993,
+        4.2003
+      ],
+      "current_range_A": [
+        -1.1003,
+        1.0482
+      ],
+      "median_sampling_s": 30.0152,
+      "n_nan": 0,
+      "out_of_range": 0,
+      "partial_capacity_range_Ah": [
+        0.0,
+        0.9225
+      ],
+      "native_temperature": false,
+      "native_soc_labels": false
+    },
+    "CS2_36": {
+      "files": 26,
+      "files_processed": 26,
+      "files_unique": 26,
+      "duplicate_trajectory_files": [],
+      "duplicate_cycles_removed": 0,
+      "measurement_rows_unique": 267339,
+      "cycles_total": 976,
+      "cycles_eligible": 968,
+      "cycle_type_counts": {
+        "full": 968,
+        "partial": 8
+      },
+      "soh_basis": "full-cycle discharge capacity (Vmin <= 2.8 V); partial cycles excluded",
+      "first_capacity_Ah": 1.1448,
+      "final_capacity_Ah": 0.1723,
+      "final_soh_pct": 15.05,
+      "min_soh_pct": 14.2,
+      "max_global_cycle": 976,
+      "eol_80pct_cycle": 505,
+      "eol_80pct_first_single_cycle": 314,
+      "eol_confirmed": true,
+      "eol_method": "trailing rolling median (5 eligible cycles), 3 consecutive cycles <= 80%",
+      "voltage_range_V": [
+        2.6992,
+        4.2009
+      ],
+      "current_range_A": [
+        -1.1004,
+        1.0816
+      ],
+      "median_sampling_s": 30.0152,
+      "n_nan": 0,
+      "out_of_range": 0,
+      "partial_capacity_range_Ah": [
+        0.0,
+        0.2751
+      ],
+      "native_temperature": false,
+      "native_soc_labels": false
+    }
+  },
+  "chemistry": "LiCoO2 cathode with trace Mn (provider statement)",
+  "files": 142,
+  "files_unique": 141,
+  "measurement_rows": 3146238,
+  "measurement_rows_unique": 3140366,
+  "native_soc_labels": false,
+  "native_temperature": false,
+  "soh_label": "measured capacity normalised to the first eligible cycle of each cell; basis differs by test design",
+  "rul_label": "derived from a sustained rolling-median measured SOH crossing 80%",
+  "notes": [
+    "CALCE CS2 Arbin exports contain no temperature channel and no native SOC label.",
+    "Cycle_Index, capacity counters and Data_Point restart or split across spreadsheets; files were ordered by measured Date_Time, not filename.",
+    "CS2_3 each Cycle_Index is a six-rate characterisation block; the second Channel sheet continues the same counters and shares one boundary row, which was de-duplicated by Date_Time.",
+    "CS2_3 SOH uses the 0.11 A discharge capacity of each block. Block charge/discharge throughput varies with where the six-rate block boundary falls and is recorded only as a diagnostic.",
+    "CS2_24 is partial cycling between 3.78 V and 4.2 V with exactly one full check-up at cycle 1 of each file.",
+    "CS2_35_2_10_11.xlsx is an exact measured-trajectory duplicate of CS2_35_2_4_11.xlsx and was excluded.",
+    "Partial cycles are retained in calce_cycles.csv with blank SOH so they can be audited but are excluded from SOH/RUL labels.",
+    "EOL requires a sustained run of rolling-median SOH <= 80%, not a single low cycle."
+  ]
+}
